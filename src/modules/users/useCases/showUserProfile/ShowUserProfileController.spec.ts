@@ -34,4 +34,12 @@ describe("Show User Profile Controller", () => {
     expect(listUser.status).toBe(200);
     expect(listUser.body).toHaveProperty("id");
   });
+
+  it("should not be able list all users case token is invalid POST /api/v1/sessions", async () => {
+    const listUser = await response(app)
+      .get("/api/v1/profile")
+      .set({ Authorization: `Bearer tokenInvalid` });
+
+    expect(listUser.status).toBe(401);
+  });
 });
