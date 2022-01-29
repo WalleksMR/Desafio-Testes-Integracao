@@ -26,4 +26,10 @@ describe("Create User Controller", () => {
     const user = await response(app).post("/api/v1/users").send(userMoke);
     expect(user.status).toBe(201);
   });
+
+  it("should not be able create a new user if user exists POST /api/v1/users", async () => {
+    await response(app).post("/users").send(userMoke);
+    const user = await response(app).post("/api/v1/users").send(userMoke);
+    expect(user.status).toBe(400);
+  });
 });
