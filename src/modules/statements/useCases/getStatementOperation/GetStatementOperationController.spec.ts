@@ -49,4 +49,19 @@ describe("Get Statement Operation Controller", () => {
     expect(getStatement.body).toHaveProperty("created_at");
     expect(getStatement.body).toHaveProperty("updated_at");
   });
+
+  it("should not be able get statement operators if statement not exists", async () => {
+    const user = await response(app).post("/api/v1/users").send(mokeUser);
+    const token = await response(app)
+      .post("/api/v1/sessions")
+      .send({ email: mokeUser.email, password: mokeUser.password });
+
+    const getStatement = await response(app)
+      .get(`/api/v1/statements/de9f1f96-6164-4575-8d4b-1cd410369fff`)
+      .set({ Authorization: `Bearer ${token.body.token}` });
+
+    expect(getStatement.status).toBe(404);
+    expect(getStatement.body).toHaveProperty("message");
+    expect(getStatement.body.message).toBe("Statement not found");
+  });
 });
