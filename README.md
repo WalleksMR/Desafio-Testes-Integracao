@@ -1,10 +1,10 @@
-# Desafio 01 - Testes unitários
+# Desafio 02 - Testes de integração
 
 ## Sobre o desafio
 
-Nesse desafio, você deverá criar testes unitários para uma aplicação já pronta usando tudo que aprendeu até agora sobre testes.
+Nesse desafio, você deverá criar testes de integração para a mesma aplicação usada no [desafio anterior](https://github.com/WalleksMR/Desafio-Testes-Unitarios).
 
-Para que você possa focar somente na parte de testes unitários sem precisar estudar muito a aplicação do zero, o template foi desenvolvido com base em uma aplicação já conhecida: **FinAPI**. A API construída no primeiro módulo da trilha.
+Você pode inclusive fazer as alterações no mesmo repositório submetido no desafio de testes unitários e submetê-lo na plataforma.
 
 ## Banco de dados
 
