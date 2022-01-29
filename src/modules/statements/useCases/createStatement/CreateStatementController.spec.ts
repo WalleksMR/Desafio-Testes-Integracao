@@ -44,4 +44,25 @@ describe("Create Statement Controller", () => {
     expect(statement.body).toHaveProperty("user_id");
     expect(statement.body).toHaveProperty("type");
   });
+
+  it("should not be able to create a new statement if insufficient funds", async () => {
+    const user = await response(app).post("/api/v1/users").send(mokeUser);
+    const token = await response(app)
+      .post("/api/v1/sessions")
+      .send({ email: mokeUser.email, password: mokeUser.password });
+
+    const statement = await response(app)
+      .post("/api/v1/statements/withdraw")
+      .send({
+        user_id: String(user.body.id),
+        amount: 500,
+        description: "Create Statemnt Withdraw",
+        type: OperationType.WITHDRAW,
+      })
+      .set({ Authorization: `Bearer ${token.body.token}` });
+
+    expect(statement.status).toBe(400);
+    expect(statement.body).toHaveProperty("message");
+    expect(statement.body.message).toBe("Insufficient funds");
+  });
 });
