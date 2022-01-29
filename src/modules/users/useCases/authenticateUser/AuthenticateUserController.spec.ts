@@ -28,4 +28,14 @@ describe("Authenticate User Controller", () => {
     expect(userToken.status).toBe(200);
     expect(userToken.body).toHaveProperty("token");
   });
+
+  it("should not be able to create a new token if the incorrect password", async () => {
+    await response(app).post("/api/v1/users").send(userMoke);
+    const userToken = await response(app)
+      .post("/api/v1/sessions")
+      .send({ email: userMoke.email, password: "IncorrectPassword" });
+
+    expect(userToken.status).toBe(401);
+    expect(userToken.body.message).toBe("Incorrect email or password");
+  });
 });
