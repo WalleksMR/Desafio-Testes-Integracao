@@ -74,4 +74,18 @@ describe("Get Balance Controller", () => {
     expect(balance.body.statement.length).toBe(3);
     expect(balance.body.balance).toBe(310);
   });
+
+  it("should not be able get balance if user not exists", async () => {
+    const userSession = await response(app)
+      .post("/api/v1/sessions")
+      .send({ email: "userNotExists", password: "passwordOfUserNotExists" });
+
+    const balance = await response(app)
+      .get("/api/v1/statements/balance")
+      .set({
+        Authorization: `Bearer ${userSession.body.token}`,
+      });
+    expect(balance.status).toBe(401);
+    expect(balance.body).toHaveProperty("message");
+  });
 });
